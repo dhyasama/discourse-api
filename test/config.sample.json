@@ -1,0 +1,9 @@
+{
+  "url": "http://your-discourse-forum.com",
+  "apiKey": "your-discourse-api-key",
+  "username": "discourse-username-to-attribute-api-calls-to",
+  "email": {
+    "username": "so-and-so",
+    "domain": "gmail.com"
+  }
+}
