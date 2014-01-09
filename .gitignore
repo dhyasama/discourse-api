@@ -10,6 +10,9 @@ lib-cov
 .idea/
 test/config.json
 
+.vagrant/
+Vagrantfile
+
 pids
 logs
 results

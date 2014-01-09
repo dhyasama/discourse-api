@@ -9,8 +9,8 @@ var config = JSON.parse(fs.readFileSync(path.normalize(__dirname + '/config.json
 describe('Discourse API', function() {
 
   var Discourse = require('../lib/discourse');
-  var api = new Discourse(config.url, config.apiKey, config.username);
-  var user_id, username, password = 'tester', topic_id, pm_topic_id;
+  var api = new Discourse(config.url, config.apiKey, config.apiUsername);
+  var user_id, username, password = 'testtoot', topic_id, pm_topic_id;
 
   it('creates a user', function(done) {
     require('crypto').randomBytes(5, function(err, buf) {
@@ -18,13 +18,16 @@ describe('Discourse API', function() {
       api.createUser('TEST ' + username, config.email.username + '+' + username + '@' + config.email.domain, username, password, function(err, body, httpCode) {
         should.not.exist(err);
         should.exist(body);
-        JSON.parse(body).success.should.equal(true);
+        httpCode.should.equal(200);
+        if (httpCode == 200) {
+          JSON.parse(body).success.should.equal(true);
+        }
         done();
       });
     });
   });
 
-  it('gets a user', function(done) {
+  it('gets new user', function(done) {
     api.getUser(username, function(err, body, httpCode) {
       should.not.exist(err);
       should.exist(body);
@@ -33,7 +36,6 @@ describe('Discourse API', function() {
         var json = JSON.parse(body);
         json.should.have.properties('user');
         json.user.should.have.properties('id');
-        console.log(JSON.stringify(json, null, 4));
         user_id = json.user.id;
         username = json.user.username;
       }
@@ -42,7 +44,7 @@ describe('Discourse API', function() {
   });
 
   it('approves a user', function(done) {
-    api.approveUser(user_id, function(err, body, httpCode) {
+    api.approveUser(user_id, username, function(err, body, httpCode) {
       should.not.exist(err);
       should.exist(body);
       httpCode.should.equal(200);
@@ -51,24 +53,51 @@ describe('Discourse API', function() {
   });
 
   it('activates a user', function(done) {
-    api.activateUser(user_id, function(err, body, httpCode) {
+    api.activateUser(user_id, username, function(err, body, httpCode) {
       should.not.exist(err);
       should.exist(body);
+      console.log(user_id);
+      console.log(username);
+      console.log(httpCode);
+      console.log(body);
       httpCode.should.equal(200);
+      if (httpCode == 200) {
+        JSON.parse(body).success.should.equal(true);
+      }
       done();
     });
   });
 
-  it('logs in a user', function(done) {
+  username = config.existingUsername;
+  password = config.existingPassword;
+
+  it('logs in an activated user', function(done) {
     api.login(username, password, function(err, body, httpCode) {
       should.not.exist(err);
       should.exist(body);
       httpCode.should.equal(200);
-      var json = JSON.parse(body);
-      json.should.not.have.properties('error');
-      json.should.have.properties('user');
-      json.user.should.have.properties('username');
-      json.user.username.should.equal(username);
+      if (httpCode == 200) {
+        var json = JSON.parse(body);
+        json.should.not.have.properties('error');
+        json.should.have.properties('user');
+        json.user.should.have.properties('username');
+        json.user.username.should.equal(username);
+      }
+      done();
+    });
+  });
+
+  it('gets existing user', function(done) {
+    api.getUser(username, function(err, body, httpCode) {
+      should.not.exist(err);
+      should.exist(body);
+      httpCode.should.equal(200);
+      if (httpCode == 200) {
+        var json = JSON.parse(body);
+        json.should.have.properties('user');
+        json.user.should.have.properties('id');
+        user_id = json.user.id;
+      }
       done();
     });
   });
@@ -165,15 +194,6 @@ describe('Discourse API', function() {
 
   it('searches for a user', function(done) {
     api.searchForUser(username, function(err, body, httpCode) {
-      should.not.exist(err);
-      should.exist(body);
-      httpCode.should.equal(200);
-      done();
-    });
-  });
-
-  it('deletes a user', function(done) {
-    api.deleteUser(user_id, username, function(err, body, httpCode) {
       should.not.exist(err);
       should.exist(body);
       httpCode.should.equal(200);
