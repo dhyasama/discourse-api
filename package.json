@@ -1,17 +1,19 @@
 {
+  "author": "Jason Reynolds",
   "name": "discourse-api",
+  "description": "A simple Node wrapper for the Discourse API",
   "version": "0.0.1",
-  "private": true,
+  "repository": "https://github.com/dhyasama/discourse-api",
+  "private": false,
   "scripts": {
-    "test": "mocha -R spec -t 5000"
+    "test": "mocha -R spec -t 10000"
   },
   "dependencies": {
     "request": "~2.30.0",
-    "mocha": "~1.16.2",
-    "should": "~2.1.1",
     "querystring": "~0.2.0"
   },
   "devDependencies": {
-    "mocha": "~1.14.0"
+    "mocha": "~1.16.2",
+    "should": "~2.1.1"
   }
 }

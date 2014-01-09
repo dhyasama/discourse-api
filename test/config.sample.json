@@ -1,9 +1,45 @@
 {
-  "url": "http://your-discourse-forum.com",
-  "apiKey": "your-discourse-api-key",
-  "username": "discourse-username-to-attribute-api-calls-to",
-  "email": {
-    "username": "so-and-so",
-    "domain": "gmail.com"
+
+  "url": "",
+
+  "api": {
+    "key": "",
+    "username": ""
+  },
+
+  "user": {
+    "new": {
+      "email": "",
+      "password": ""
+    }
+  },
+
+  "topic": {
+    "category": "",
+    "title": "",
+    "body": "",
+    "reply": {
+      "body": ""
+    },
+    "post": {
+      "reply": {
+        "body": ""
+      }
+    }
+  },
+
+  "pm": {
+    "target_usernames": "",
+    "title": "",
+    "body": "",
+    "reply": {
+      "body": ""
+    }
+  },
+
+  "search": {
+    "term": "",
+    "username": ""
   }
+
 }

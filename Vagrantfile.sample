@@ -8,5 +8,6 @@ Vagrant.configure('2') do |config|
     provider.client_id = 'YOUR CLIENT ID'
     provider.api_key = 'YOUR API KEY'
     provider.image = 'YOUR SNAPSHOT NAME'
+    provider.size = 'SIZE OF DROPLET'
   end
 end
