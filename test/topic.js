@@ -20,6 +20,7 @@ describe('Discourse Topic API', function() {
       // make assertions
       should.not.exist(err);
       should.exist(body);
+
       httpCode.should.equal(200);
 
       var json = JSON.parse(body);
