@@ -15,26 +15,37 @@ describe('Discourse Topic API', function() {
 
   it('creates a topic', function(done) {
 
-    api.createTopic(config.topic.title, config.topic.body, config.topic.category, function(err, body, httpCode) {
+    // append random string to title because discourse has a setting to prevent duplicate titles
+    // alternatively, turn off the setting :)
 
-      // make assertions
-      should.not.exist(err);
-      should.exist(body);
+    require('crypto').randomBytes(5, function(err, buf) {
 
-      httpCode.should.equal(200);
+      api.createTopic(config.topic.title + ' ' + buf, config.topic.body, config.topic.category, function(err, body, httpCode) {
 
-      var json = JSON.parse(body);
+        console.log(err);
+        console.log(body);
 
-      // make more assertions
-      json.should.have.properties('topic_id');
-      json.topic_id.should.be.above(0);
+        // make assertions
+        should.not.exist(err);
+        should.exist(body);
 
-      // save for subsequent tests
-      topic_id = json.topic_id;
+        httpCode.should.equal(200);
 
-      done();
+        var json = JSON.parse(body);
+
+        // make more assertions
+        json.should.have.properties('topic_id');
+        json.topic_id.should.be.above(0);
+
+        // save for subsequent tests
+        topic_id = json.topic_id;
+
+        done();
+
+      });
 
     });
+
   });
 
   it('replies to a topic', function(done) {
