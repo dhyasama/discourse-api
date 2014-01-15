@@ -58,6 +58,29 @@ describe('Discourse Private Message API', function() {
     });
   });
 
+  it('gets a private message thread', function(done) {
+
+    // topic_id is set in previous test
+
+    api.getPrivateMessageThread(topic_id, function(err, body, httpCode) {
+
+      // make assertions
+      should.not.exist(err);
+      should.exist(body);
+      httpCode.should.equal(200);
+
+      var json = JSON.parse(body);
+
+      // make more assertions
+      json.should.have.properties('id');
+      json.id.should.equal(topic_id);
+
+      done();
+
+    });
+
+  });
+
   it('gets private messages sent by a user', function(done) {
 
     api.getSentPrivateMessages(config.api.username, function(err, body, httpCode) {
