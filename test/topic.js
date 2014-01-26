@@ -22,9 +22,6 @@ describe('Discourse Topic API', function() {
 
       api.createTopic(config.topic.title + ' ' + buf, config.topic.body, config.topic.category, function(err, body, httpCode) {
 
-        console.log(err);
-        console.log(body);
-
         // make assertions
         should.not.exist(err);
         should.exist(body);
