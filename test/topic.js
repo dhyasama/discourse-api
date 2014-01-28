@@ -111,4 +111,23 @@ describe('Discourse Topic API', function() {
     });
   });
 
+  it('deletes a topic', function(done) {
+
+    // topic_id set in previous test
+
+    api.deleteTopic(topic_id, function(err, body, httpCode) {
+
+      // make assertions
+      should.not.exist(err);
+      should.exist(body);
+      httpCode.should.equal(200);
+
+      // todo - check body
+
+      done();
+
+    });
+
+  });
+
 });
