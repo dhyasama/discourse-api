@@ -97,6 +97,22 @@ describe('Discourse Private Message API', function() {
     });
   });
 
+  it('gets all unread private messages for a user', function(done) {
+
+    api.getUnreadPrivateMessages(config.api.username, function(err, body, httpCode) {
+
+      // make assertions
+      should.not.exist(err);
+      should.exist(body);
+      httpCode.should.equal(200);
+
+      // todo - check json
+
+      done();
+
+    });
+  });
+
   it('gets private messages sent by a user', function(done) {
 
     api.getSentPrivateMessages(config.api.username, function(err, body, httpCode) {
