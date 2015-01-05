@@ -9,8 +9,9 @@
     "test": "mocha -R spec -t 10000"
   },
   "dependencies": {
+    "querystring": "~0.2.0",
     "request": "~2.30.0",
-    "querystring": "~0.2.0"
+    "sync-request": "^1.0.2"
   },
   "devDependencies": {
     "mocha": "~1.16.2",
