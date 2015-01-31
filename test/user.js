@@ -134,4 +134,24 @@ describe('Discourse User API', function() {
     });
   });
 
+  it('gets a user email', function(done) {
+
+    // username is assigned in previous test
+
+    api.getUserEmail(username, function(err, body, httpCode) {
+
+      // make assertions
+      should.not.exist(err);
+      should.exist(body);
+      httpCode.should.equal(200);
+
+      var json = JSON.parse(body);
+
+      // make more assertions
+      json.should.have.properties('email');
+
+      done();
+    });
+  });
+
 });
