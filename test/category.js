@@ -7,9 +7,10 @@ var
   config  = JSON.parse(fs.readFileSync(path.normalize(__dirname + '/config.json', 'utf8')));
 
 describe('Discourse Category API', function() {
+
   var
     Discourse = require('../lib/discourse'),
-    api = new Discourse(config.url, config.api.key, config.api.username),
+    api = new Discourse(config.url, config.api.key, config.api.username);
 
   it('creates a category', function(done) {
 
@@ -56,6 +57,5 @@ describe('Discourse Category API', function() {
     });
 
   });
-
 
 });
