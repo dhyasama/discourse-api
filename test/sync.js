@@ -11,7 +11,7 @@ describe('Discourse Sync API', function() {
 
   var
     Discourse = require('../lib/discourse'),
-    api = new Discourse(config.url, config.api.key, config.api.username),
+    api = new Discourse(config.url, config.api.key, config.api.username);
 
   it('gets site.json synchronously', function(done) {
 
@@ -21,6 +21,5 @@ describe('Discourse Sync API', function() {
     done();
 
   });
-
 
 });
