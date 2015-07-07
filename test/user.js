@@ -45,11 +45,28 @@ describe('Discourse User API', function() {
         json.should.have.properties('success');
         json.success.should.equal(true);
 
+        user_id = json.user_id;
+
         done();
 
       });
 
     });
+  });
+
+  it('activates a user', function(done) {
+
+    api.activateUser(user_id, username, function(err, body, httpCode) {
+
+      // make assertions
+      should.not.exist(err);
+      should.exist(body);
+      httpCode.should.equal(200);
+
+      done();
+
+    });
+
   });
 
   it('gets a user', function(done) {
@@ -68,26 +85,6 @@ describe('Discourse User API', function() {
       // make more assertions
       json.should.have.properties('user');
       json.user.should.have.properties('id');
-
-      // save these values for next test
-      user_id = json.user.id;
-      username = json.user.username;
-
-      done();
-
-    });
-  });
-
-
-
-  it('activates a user', function(done) {
-
-    api.activateUser(user_id, username, function(err, body, httpCode) {
-
-      // make assertions
-      should.not.exist(err);
-      should.exist(body);
-      httpCode.should.equal(200);
 
       done();
 
