@@ -2,7 +2,7 @@
   "author": "Jason Reynolds",
   "name": "discourse-api",
   "description": "A simple Node wrapper for the Discourse API",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": "https://github.com/dhyasama/discourse-api",
   "private": false,
   "scripts": {
