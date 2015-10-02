@@ -146,7 +146,7 @@ describe('Discourse Topic API', function() {
     });
   });
 
-  it('gets a topic and it\'s replies', function(done) {
+  it('gets a topic and its replies', function(done) {
 
     // topic_id set in previous test
 
