@@ -58,4 +58,18 @@ describe('Discourse Category API', function() {
 
   });
 
+  it('gets latest topics from a category', function(done) {
+    api.getCategoryLatestTopic('uncategorized', {}, function (err, body, httpCode){
+      // make assertions
+      should.not.exist(err);
+      should.exist(body);
+
+      httpCode.should.equal(200);
+
+      var json = JSON.parse(body);
+      json.should.have.properties('topic_list');
+      done();
+    });
+  });
+
 });
