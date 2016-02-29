@@ -11,7 +11,7 @@
   "dependencies": {
     "querystring": "~0.2.0",
     "request": "~2.30.0",
-    "sync-request": "^1.0.2"
+    "sync-request": "^3.0.0"
   },
   "devDependencies": {
     "mocha": "~1.16.2",
