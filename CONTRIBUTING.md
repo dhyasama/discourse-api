@@ -1,5 +1,7 @@
 ## Contributing (Step-by-step, shamelessly cribbed from the Discourse project)
 
+0. Research the function(s) you want to add in the [API documentation](https://github.com/discourse/discourse_api) or if they aren't documented, learn how to [reverse-engineer the Discourse API](https://meta.discourse.org/t/how-to-reverse-engineer-the-discourse-api/20576).
+
 1. Clone the Repo:
 
         git clone git://github.com/dhyasama/discourse-api.git
