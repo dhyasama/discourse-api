@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "querystring": "~0.2.0",
-    "request": "~2.30.0",
+    "request": "~2.74.0",
     "sync-request": "^3.0.0"
   },
   "devDependencies": {
