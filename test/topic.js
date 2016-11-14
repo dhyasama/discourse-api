@@ -93,7 +93,7 @@ describe('Discourse Topic API', function() {
         should.not.exist(err);
         should.exist(body);
         httpCode.should.equal(200);
-        
+
         var json = JSON.parse(body);
 
         // make more assertions
@@ -168,10 +168,33 @@ describe('Discourse Topic API', function() {
       httpCode.should.equal(200);
 
       var json = JSON.parse(body);
+      postIdToReplyTo = json.post_stream.posts[1].id;
 
       // make more assertions
       json.should.have.properties('id');
       json.id.should.be.above(0);
+
+      done();
+
+    });
+  });
+
+  it('likes the second post', function(done) {
+
+    // postIdToReplyTo set in previous test
+    api.createPostAction(postIdToReplyTo, 2, function(err, body, httpCode) {
+      // make assertions
+      should.not.exist(err);
+      should.exist(body);
+      //console.log(body);
+      httpCode.should.equal(200);
+      var json = JSON.parse(body);
+
+      // make more assertions
+      json.should.have.properties('id');
+      json.id.should.be.above(0);
+
+      post_id = json.id;
 
       done();
 
