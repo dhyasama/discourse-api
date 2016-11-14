@@ -12,7 +12,7 @@ describe('Discourse Topic API', function() {
     Discourse = require('../lib/discourse'),
     api = new Discourse(config.url, config.api.key, config.api.username),
     topic_id = '',
-    slug = '',
+    postIdToReplyTo = null,
     post_id = '';
 
   it('creates a topic', function(done) {
@@ -22,7 +22,12 @@ describe('Discourse Topic API', function() {
 
     require('crypto').randomBytes(5, function(err, buf) {
 
-      api.createTopic(config.topic.title + ' ' + buf.toString('hex').toUpperCase(), config.topic.body, config.topic.category, function(err, body, httpCode) {
+      api.createTopic(config.topic.title + ' ' + buf.toString('hex').toUpperCase(), 
+        config.topic.body, 
+        config.topic.category,
+        true,
+        config.topic.tag_array, 
+        function(err, body, httpCode) {
 
         // make assertions
         should.not.exist(err);
@@ -38,7 +43,6 @@ describe('Discourse Topic API', function() {
 
         // save for subsequent tests
         topic_id = json.topic_id;
-        slug = json.topic_slug;
 
         done();
 
