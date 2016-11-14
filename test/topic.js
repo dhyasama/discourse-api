@@ -82,27 +82,28 @@ describe('Discourse Topic API', function() {
 
   });
 
-  it('replies to a topic', function(done) {
+  it('posts in a topic', function(done) {
 
-    // topic_id set in previous test
+    
+    require('crypto').randomBytes(5, function(err, buf) {
+      // topic_id set in previous test
+      api.createPost(config.topic.reply.body + buf.toString('hex').toUpperCase(), topic_id, null, function(err, body, httpCode) {
 
-    api.replyToTopic(config.topic.reply.body, topic_id, function(err, body, httpCode) {
+        // make assertions
+        should.not.exist(err);
+        should.exist(body);
+        httpCode.should.equal(200);
+        //console.log(body);
+        var json = JSON.parse(body);
 
-      // make assertions
-      should.not.exist(err);
-      should.exist(body);
-      httpCode.should.equal(200);
+        // make more assertions
+        json.should.have.properties('id');
+        json.id.should.be.above(0);
 
-      var json = JSON.parse(body);
+        post_id = json.id;
 
-      // make more assertions
-      json.should.have.properties('id');
-      json.id.should.be.above(0);
-
-      post_id = json.id;
-
-      done();
-
+        done();
+      });
     });
   });
 
