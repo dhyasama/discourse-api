@@ -60,7 +60,8 @@ describe('Discourse Topic API', function() {
 
     require('crypto').randomBytes(5, function(err, buf) {
 
-      api.updateTopic(slug, topic_id, config.topic.title + ' UPDATE ' + buf.toString('hex').toUpperCase(), 'uncategorized', function(err, body, httpCode) {
+      api.updateTopic(topic_id, config.topic.title + ' UPDATE ' + buf.toString('hex').toUpperCase(), 
+        'CB3F681D95 CB3F681D95 CB3F681D95', function(err, body, httpCode) {
 
         // make assertions
         should.not.exist(err);
