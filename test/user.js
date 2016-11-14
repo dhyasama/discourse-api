@@ -75,13 +75,15 @@ describe('Discourse User API', function() {
 
     // username is assigned in previous test
 
-    api.getUser(username, function(err, user) {
+    api.getUser(username, function(err, body, httpCode) {
 
       // make assertions
       should.not.exist(err);
-      should.exist(user);
-
+      httpCode.should.equal(200);
+      should.exist(body);
+      
       // make more assertions
+      const user = JSON.parse(body);
       user.should.have.properties('user');
       user.user.should.have.properties('id');
 
