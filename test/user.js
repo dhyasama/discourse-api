@@ -81,7 +81,7 @@ describe('Discourse User API', function() {
       should.not.exist(err);
       httpCode.should.equal(200);
       should.exist(body);
-      
+
       // make more assertions
       const user = JSON.parse(body);
       user.should.have.properties('user');
@@ -151,5 +151,39 @@ describe('Discourse User API', function() {
       done();
     });
   });
+
+    it('get all badges', function(done) {
+
+    // user_id and username are assigned in previous test
+
+    api.getAllBadges(function(err, body, httpCode) {
+      //console.log(body)
+      // make assertions
+      should.not.exist(err);
+      should.exist(body);
+      httpCode.should.equal(200);
+
+      done();
+
+    });
+  });
+
+  it('grant user badge #1', function(done) {
+
+    // user_id and username are assigned in previous test
+
+    api.grantBadge(username, 1, function(err, body, httpCode) {
+      //console.log(body)
+      // make assertions
+      should.not.exist(err);
+      should.exist(body);
+      httpCode.should.equal(200);
+
+      done();
+
+    });
+  });
+
+});
 
 });
