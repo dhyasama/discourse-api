@@ -152,7 +152,7 @@ describe('Discourse User API', function() {
     });
   });
 
-    it('get all badges', function(done) {
+  it('get all badges', function(done) {
 
     // user_id and username are assigned in previous test
 
@@ -183,7 +183,5 @@ describe('Discourse User API', function() {
 
     });
   });
-
-});
 
 });
