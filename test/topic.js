@@ -93,7 +93,7 @@ describe('Discourse Topic API', function() {
         should.not.exist(err);
         should.exist(body);
         httpCode.should.equal(200);
-        //console.log(body);
+        
         var json = JSON.parse(body);
 
         // make more assertions
@@ -130,27 +130,31 @@ describe('Discourse Topic API', function() {
 
   });
 
-  it('replies to a post', function(done) {
+  for (var i = 0; i < 1; i++) {
+    it('replies to a post', function(done) {
 
-    // topic_id set in previous test
+      // topic_id set in previous test
+      api.api_username = 'system';
+       require('crypto').randomBytes(5, function(err, buf) {
+        api.createPost(config.topic.post.reply.body + buf.toString('hex'), topic_id, 1, function(err, body, httpCode) {
 
-    api.replyToPost(config.topic.post.reply.body, topic_id, 1, function(err, body, httpCode) {
+          // make assertions
+          should.not.exist(err);
+          should.exist(body);
+          //console.log(body)
+          httpCode.should.equal(200);
 
-      // make assertions
-      should.not.exist(err);
-      should.exist(body);
-      httpCode.should.equal(200);
+          var json = JSON.parse(body);
 
-      var json = JSON.parse(body);
+          // make more assertions
+          json.should.have.properties('id');
+          json.id.should.be.above(0);
 
-      // make more assertions
-      json.should.have.properties('id');
-      json.id.should.be.above(0);
-
-      done();
-
+          done();
+        });
+      });
     });
-  });
+}
 
   it('gets a topic and its replies', function(done) {
 
