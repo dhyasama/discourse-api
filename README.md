@@ -1,5 +1,6 @@
 discourse-api
 =============
+[![Known Vulnerabilities](https://snyk.io/test/github/dhyasama/discourse-api/0b0f8cc9a7fd9d19a580166469e003542f87c1de/badge.svg)](https://snyk.io/test/github/dhyasama/discourse-api/0b0f8cc9a7fd9d19a580166469e003542f87c1de)
 
 A simple Node wrapper for the Discourse API
 
