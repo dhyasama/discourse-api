@@ -75,13 +75,15 @@ describe('Discourse User API', function() {
 
     // username is assigned in previous test
 
-    api.getUser(username, function(err, user) {
+    api.getUser(username, function(err, body, httpCode) {
 
       // make assertions
       should.not.exist(err);
-      should.exist(user);
+      httpCode.should.equal(200);
+      should.exist(body);
 
       // make more assertions
+      const user = JSON.parse(body);
       user.should.have.properties('user');
       user.user.should.have.properties('id');
 
@@ -147,6 +149,38 @@ describe('Discourse User API', function() {
       json.should.have.properties('email');
 
       done();
+    });
+  });
+
+  it('get all badges', function(done) {
+
+    // user_id and username are assigned in previous test
+
+    api.getAllBadges(function(err, body, httpCode) {
+      //console.log(body)
+      // make assertions
+      should.not.exist(err);
+      should.exist(body);
+      httpCode.should.equal(200);
+
+      done();
+
+    });
+  });
+
+  it('grant user badge #1', function(done) {
+
+    // user_id and username are assigned in previous test
+
+    api.grantBadge(username, 1, function(err, body, httpCode) {
+      //console.log(body)
+      // make assertions
+      should.not.exist(err);
+      should.exist(body);
+      httpCode.should.equal(200);
+
+      done();
+
     });
   });
 

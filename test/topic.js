@@ -12,7 +12,7 @@ describe('Discourse Topic API', function() {
     Discourse = require('../lib/discourse'),
     api = new Discourse(config.url, config.api.key, config.api.username),
     topic_id = '',
-    slug = '',
+    postIdToReplyTo = null,
     post_id = '';
 
   it('creates a topic', function(done) {
@@ -22,7 +22,12 @@ describe('Discourse Topic API', function() {
 
     require('crypto').randomBytes(5, function(err, buf) {
 
-      api.createTopic(config.topic.title + ' ' + buf.toString('hex').toUpperCase(), config.topic.body, config.topic.category, function(err, body, httpCode) {
+      api.createTopic(config.topic.title + ' ' + buf.toString('hex').toUpperCase(), 
+        config.topic.body, 
+        config.topic.category,
+        true,
+        config.topic.tag_array, 
+        function(err, body, httpCode) {
 
         // make assertions
         should.not.exist(err);
@@ -38,7 +43,6 @@ describe('Discourse Topic API', function() {
 
         // save for subsequent tests
         topic_id = json.topic_id;
-        slug = json.topic_slug;
 
         done();
 
@@ -56,7 +60,8 @@ describe('Discourse Topic API', function() {
 
     require('crypto').randomBytes(5, function(err, buf) {
 
-      api.updateTopic(slug, topic_id, config.topic.title + ' UPDATE ' + buf.toString('hex').toUpperCase(), 'uncategorized', function(err, body, httpCode) {
+      api.updateTopic(topic_id, config.topic.title + ' UPDATE ' + buf.toString('hex').toUpperCase(), 
+        'CB3F681D95 CB3F681D95 CB3F681D95', function(err, body, httpCode) {
 
         // make assertions
         should.not.exist(err);
@@ -77,27 +82,28 @@ describe('Discourse Topic API', function() {
 
   });
 
-  it('replies to a topic', function(done) {
+  it('posts in a topic', function(done) {
 
-    // topic_id set in previous test
+    
+    require('crypto').randomBytes(5, function(err, buf) {
+      // topic_id set in previous test
+      api.createPost(config.topic.reply.body + buf.toString('hex').toUpperCase(), topic_id, null, function(err, body, httpCode) {
 
-    api.replyToTopic(config.topic.reply.body, topic_id, function(err, body, httpCode) {
+        // make assertions
+        should.not.exist(err);
+        should.exist(body);
+        httpCode.should.equal(200);
 
-      // make assertions
-      should.not.exist(err);
-      should.exist(body);
-      httpCode.should.equal(200);
+        var json = JSON.parse(body);
 
-      var json = JSON.parse(body);
+        // make more assertions
+        json.should.have.properties('id');
+        json.id.should.be.above(0);
 
-      // make more assertions
-      json.should.have.properties('id');
-      json.id.should.be.above(0);
+        post_id = json.id;
 
-      post_id = json.id;
-
-      done();
-
+        done();
+      });
     });
   });
 
@@ -124,27 +130,31 @@ describe('Discourse Topic API', function() {
 
   });
 
-  it('replies to a post', function(done) {
+  for (var i = 0; i < 1; i++) {
+    it('replies to a post', function(done) {
 
-    // topic_id set in previous test
+      // topic_id set in previous test
+      api.api_username = 'system';
+       require('crypto').randomBytes(5, function(err, buf) {
+        api.createPost(config.topic.post.reply.body + buf.toString('hex'), topic_id, 1, function(err, body, httpCode) {
 
-    api.replyToPost(config.topic.post.reply.body, topic_id, 1, function(err, body, httpCode) {
+          // make assertions
+          should.not.exist(err);
+          should.exist(body);
+          //console.log(body)
+          httpCode.should.equal(200);
 
-      // make assertions
-      should.not.exist(err);
-      should.exist(body);
-      httpCode.should.equal(200);
+          var json = JSON.parse(body);
 
-      var json = JSON.parse(body);
+          // make more assertions
+          json.should.have.properties('id');
+          json.id.should.be.above(0);
 
-      // make more assertions
-      json.should.have.properties('id');
-      json.id.should.be.above(0);
-
-      done();
-
+          done();
+        });
+      });
     });
-  });
+}
 
   it('gets a topic and its replies', function(done) {
 
@@ -158,10 +168,33 @@ describe('Discourse Topic API', function() {
       httpCode.should.equal(200);
 
       var json = JSON.parse(body);
+      postIdToReplyTo = json.post_stream.posts[1].id;
 
       // make more assertions
       json.should.have.properties('id');
       json.id.should.be.above(0);
+
+      done();
+
+    });
+  });
+
+  it('likes the second post', function(done) {
+
+    // postIdToReplyTo set in previous test
+    api.createPostAction(postIdToReplyTo, 2, function(err, body, httpCode) {
+      // make assertions
+      should.not.exist(err);
+      should.exist(body);
+      //console.log(body);
+      httpCode.should.equal(200);
+      var json = JSON.parse(body);
+
+      // make more assertions
+      json.should.have.properties('id');
+      json.id.should.be.above(0);
+
+      post_id = json.id;
 
       done();
 
